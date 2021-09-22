@@ -4,9 +4,9 @@ import "./styles/base.scss";
 
 function App() {
   return (
-    <div>
+    <>
       <Calculator />
-    </div>
+    </>
   );
 }
 

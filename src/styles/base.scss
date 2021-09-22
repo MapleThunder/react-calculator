@@ -3,19 +3,22 @@
 :root {
   --black: #222222;
   --grey: #cccccc;
+  --greyDark: #444;
   --yellow: #fcf780;
   --blue: #65e5e1;
   --purple: #8e5c7f;
+  --screenText: #aaa;
 
-  --primary: var(--purple);
-  --accent: var(--yellow);
-  --tertiary: var(--blue);
   --background: var(--grey);
-  --header: var(--blue);
-  --cardBg: var(--grey);
+  --bodyBackground: var(--purple);
+  --buttonBackground: var(--blue);
+  --operator: var(--yellow);
+  --extraFunctions: var(--blue) 50;
+  --screenBackground: var(--greyDark);
+  --screenTextColour: var(--screenText);
 
-  --border: solid 2px var(--black);
-  --borderRadius: 5px;
+  --debugBorder: dashed 1px red;
+  --borderRadius: 20px;
 }
 
 html,
@@ -38,4 +41,10 @@ h1 {
 h2 {
   font-size: 1.5em;
   font-weight: bold;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
