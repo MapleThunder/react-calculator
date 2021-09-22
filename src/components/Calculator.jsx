@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "@emotion/styled";
 
 const CalculatorBody = styled.div`
@@ -43,7 +44,7 @@ const CalculatorBody = styled.div`
     button {
       background-color: var(--buttonBackground);
       border-radius: 50%;
-      font-size: larger;
+      font-size: 1.75rem;
 
     }
     button.operator {
@@ -52,6 +53,8 @@ const CalculatorBody = styled.div`
     .zero {
       grid-column: 1/3;
       border-radius: 25% / 50%;
+      text-align: left;
+      padding-left: 39px;
     }
 
     button:hover {
@@ -61,34 +64,47 @@ const CalculatorBody = styled.div`
 `;
 
 export function Calculator() {
+  const [expression, setExpression] = useState("0");
+
+  function addToExpression(value) {
+    if(value == "." && expression.includes(".")) {
+      return;
+    }
+    
+    if(expression == "0") {
+      setExpression(value);
+    }
+    else setExpression(expression + value);
+  }
+
   return <CalculatorBody>
     <div className="screen">
-      <div className="expression">0</div>
+      <div className="expression">{expression}</div>
       <div className="answer"></div>
     </div>
     <div className="buttons">
-      <button>AC</button>
+      <button onClick={() => setExpression("0")}>AC</button>
       <button>+/-</button>
       <button>%</button>
-      <button className="operator">÷</button>
+      <button onClick={() => addToExpression("/")} className="operator">÷</button>
       
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button className="operator">x</button>
+      <button onClick={() => addToExpression("7")}>7</button>
+      <button onClick={() => addToExpression("8")}>8</button>
+      <button onClick={() => addToExpression("9")}>9</button>
+      <button onClick={() => addToExpression("*")} className="operator">x</button>
       
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button className="operator">-</button>
+      <button onClick={() => addToExpression("4")}>4</button>
+      <button onClick={() => addToExpression("5")}>5</button>
+      <button onClick={() => addToExpression("6")}>6</button>
+      <button onClick={() => addToExpression("-")} className="operator">-</button>
 
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button className="operator">+</button>
+      <button onClick={() => addToExpression("1")}>1</button>
+      <button onClick={() => addToExpression("2")}>2</button>
+      <button onClick={() => addToExpression("3")}>3</button>
+      <button onClick={() => addToExpression("+")} className="operator">+</button>
       
-      <button className="zero">0</button>
-      <button>.</button>
+      <button onClick={() => addToExpression("0")} className="zero">0</button>
+      <button onClick={() => addToExpression(".")}>.</button>
       <button className="operator">=</button>
     </div>
   </CalculatorBody>;
