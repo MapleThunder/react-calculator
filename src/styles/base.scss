@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+:root {
+  --black: #222222;
+  --grey: #cccccc;
+  --yellow: #fcf780;
+  --blue: #65e5e1;
+  --purple: #8e5c7f;
+
+  --primary: var(--purple);
+  --accent: var(--yellow);
+  --tertiary: var(--blue);
+  --background: var(--grey);
+  --header: var(--blue);
+  --cardBg: var(--grey);
+
+  --border: solid 2px var(--black);
+  --borderRadius: 5px;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+  background-color: var(--background);
+}
+
+body {
+  font-family: Nunito, Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bolder;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
