@@ -59,7 +59,9 @@ export function Calculator() {
 
   return <CalculatorBody>
     <div className="screen">
-      <div className="answer">{state.rightNum ? state.rightNum : state.leftNum}</div>
+      <div className="answer">
+        {state.rightNum ? state.rightNum : state.leftNum}
+      </div>
     </div>
     <div className="buttons">
       <button onClick={() => dispatch({type: CLEAR})}>AC</button>

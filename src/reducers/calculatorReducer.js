@@ -2,6 +2,7 @@ export const initialState = {
   leftNum: "0",
   operator: undefined,
   rightNum: undefined,
+  clean: true,
 };
 
 export const ACTIONS = {
@@ -22,19 +23,18 @@ export const SIGNS = {
 };
 
 export function calculatorReducer(state, event) {
-  console.log(event);
   switch (event.type) {
     case ACTIONS.CLEAR:
       return initialState;
 
     case ACTIONS.ADD:
-      break;
+      return { ...state, operator: SIGNS.ADD };
     case ACTIONS.SUBTRACT:
-      break;
+      return { ...state, operator: SIGNS.SUBTRACT };
     case ACTIONS.MULTIPLY:
-      break;
+      return { ...state, operator: SIGNS.MULTIPLY };
     case ACTIONS.DIVIDE:
-      break;
+      return { ...state, operator: SIGNS.DIVIDE };
 
     case ACTIONS.EQUALS:
       if (state.leftNum && state.rightNum) {
@@ -52,27 +52,50 @@ export function calculatorReducer(state, event) {
 }
 
 function calculate(state) {
+  let newNum = undefined;
+  const leftNum = parseFloat(state.leftNum);
+  const rightNum = parseFloat(state.rightNum);
+
   switch (state.operator) {
     case SIGNS.ADD:
-      return state.leftNum + state.rightNum;
+      newNum = leftNum + rightNum;
+      break;
     case SIGNS.SUBTRACT:
-      return state.leftNum - state.rightNum;
-    case SIGNS.DIVIDE:
-      return state.leftNum * state.rightNum;
+      newNum = leftNum - rightNum;
+      break;
     case SIGNS.MULTIPLY:
-      return state.leftNum / state.rightNum;
+      newNum = leftNum * rightNum;
+      break;
+    case SIGNS.DIVIDE:
+      newNum = leftNum / rightNum;
+      break;
   }
+
+  return {
+    leftNum: newNum,
+    operator: undefined,
+    rightNum: undefined,
+    clean: true,
+  };
 }
 
 function formatNumber(state, data) {
   if (state.operator == undefined) {
-    if (state.leftNum == "0") {
-      return { ...state, leftNum: data };
+    if (state.clean) {
+      return { ...state, leftNum: data, clean: false };
     } else if (data != ".") {
       return { ...state, leftNum: state.leftNum + data };
     } else if (data == "." && !state.leftNum.includes(".")) {
       return { ...state, leftNum: state.leftNum + data };
     }
     return state;
+  } else {
+    if (state.rightNum == "0" || state.rightNum == undefined) {
+      return { ...state, rightNum: data };
+    } else if (data != ".") {
+      return { ...state, rightNum: state.rightNum + data };
+    } else if (data == "." && !state.rightNum.includes(".")) {
+      return { ...state, rightNum: state.rightNum + data };
+    }
   }
 }
