@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import styled from "@emotion/styled";
+import { calculatorReducer, initialState, ACTIONS } from "../reducers/calculatorReducer";
 
 const CalculatorBody = styled.div`
   display: grid;
@@ -14,25 +15,14 @@ const CalculatorBody = styled.div`
   .screen {
     background-color: var(--screenBackground);
     border-radius: 5px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    text-align: right;
-    font-size: 1.8em;
-    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    font-size: 2.5rem;
+    padding: 0 10px;
     color: var(--screenTextColour);
-    
-    .expression {
-      border-radius: 5px 5px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: right;
-    }
-    .answer {
-      border-radius: 0 0 5px 5px;
-      display: flex;
-      align-items: center;
-      justify-content: right;
-    }
+
+    .answer {}
   }
 
   .buttons {
@@ -64,48 +54,37 @@ const CalculatorBody = styled.div`
 `;
 
 export function Calculator() {
-  const [expression, setExpression] = useState("0");
-
-  function addToExpression(value) {
-    if(value == "." && expression.includes(".")) {
-      return;
-    }
-    
-    if(expression == "0") {
-      setExpression(value);
-    }
-    else setExpression(expression + value);
-  }
+  const [state, dispatch] = useReducer(calculatorReducer, initialState);
+  const {CLEAR, ADD, SUBTRACT, MULTIPLY, DIVIDE, NUMBER, EQUALS} = ACTIONS;
 
   return <CalculatorBody>
     <div className="screen">
-      <div className="expression">{expression}</div>
-      <div className="answer"></div>
+      <div className="answer">{state.rightNum ? state.rightNum : state.leftNum}</div>
     </div>
     <div className="buttons">
-      <button onClick={() => setExpression("0")}>AC</button>
+      <button onClick={() => dispatch({type: CLEAR})}>AC</button>
       <button>+/-</button>
       <button>%</button>
-      <button onClick={() => addToExpression("/")} className="operator">÷</button>
+      <button onClick={() => dispatch({type: DIVIDE})} className="operator">÷</button>
       
-      <button onClick={() => addToExpression("7")}>7</button>
-      <button onClick={() => addToExpression("8")}>8</button>
-      <button onClick={() => addToExpression("9")}>9</button>
-      <button onClick={() => addToExpression("*")} className="operator">x</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "7"})}>7</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "8"})}>8</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "9"})}>9</button>
+      <button onClick={() => dispatch({type: MULTIPLY})} className="operator">x</button>
       
-      <button onClick={() => addToExpression("4")}>4</button>
-      <button onClick={() => addToExpression("5")}>5</button>
-      <button onClick={() => addToExpression("6")}>6</button>
-      <button onClick={() => addToExpression("-")} className="operator">-</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "4"})}>4</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "5"})}>5</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "6"})}>6</button>
+      <button onClick={() => dispatch({type: SUBTRACT})} className="operator">-</button>
 
-      <button onClick={() => addToExpression("1")}>1</button>
-      <button onClick={() => addToExpression("2")}>2</button>
-      <button onClick={() => addToExpression("3")}>3</button>
-      <button onClick={() => addToExpression("+")} className="operator">+</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "1"})}>1</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "2"})}>2</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "3"})}>3</button>
+      <button onClick={() => dispatch({type: ADD})} className="operator">+</button>
       
-      <button onClick={() => addToExpression("0")} className="zero">0</button>
-      <button onClick={() => addToExpression(".")}>.</button>
-      <button className="operator">=</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "0"})} className="zero">0</button>
+      <button onClick={() => dispatch({type: NUMBER, data: "."})}>.</button>
+      <button onClick={() => dispatch({type: EQUALS})} className="operator">=</button>
     </div>
   </CalculatorBody>;
 }
